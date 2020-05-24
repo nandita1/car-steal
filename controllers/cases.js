@@ -16,6 +16,16 @@ exports.casesById = (req, res, next, id) => {
     });
 };
 
+exports.list = (req, res) => {
+    Cases.find({}).populate("OfficerAssigned").exec((err, result)=>{
+        if (err)
+                return res.status(400).json({
+                    error: errorHandler(err),
+                });
+        return res.json(result)
+    })
+}
+
 exports.create = (req, res) => {
     let form = new formidable.IncomingForm();
     form.parse(req, (err, fields)=>{
